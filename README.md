@@ -1,12 +1,12 @@
 # API de Transferência Bancária - Banco Digital
 
-Esta é uma API REST simplificada para um banco digital, desenvolvida como parte do desafio técnico da Compass.UOL. O objetivo principal é permitir a transferência de valores entre contas e a consulta de movimentações financeiras, garantindo consistência, resiliência e performance.
+Esta é uma API REST simplificada para um banco digital, desenvolvida como parte do desafio técnico. O objetivo principal é permitir a transferência de valores entre contas e a consulta de movimentações financeiras, garantindo consistência, resiliência e performance.
 
 ---
 
 ## Como Executar o Projeto
 
-1. Certifique-se de ter o **Java 17+** (ou a versão utilizada no seu projeto) e o **Maven** instalados.
+1. Certifique-se de ter o **Java 21+** e o **Maven** instalados.
 2. Clone o repositório e acesse a pasta raiz do projeto.
 3. Execute a aplicação através da sua IDE de preferência ou pelo terminal executando a classe principal:
    `TransferenciaBancariaApiApplication`
@@ -16,7 +16,7 @@ Esta é uma API REST simplificada para um banco digital, desenvolvida como parte
 
 ## Arquitetura e Decisões de Design
 
-O sistema foi projetado seguindo os princípios do **SOLID**, com foco no **Princípio da Responsabilidade Única (SRP)**, de forma a garantir alta coesão e baixo acoplamento. A estrutura de pacotes foi organizada da seguinte forma:
+O sistema foi projetado seguindo os princípios do **SOLID**, com foco no **Princípio da Responsabilidade Única (SRP)**. A estrutura de pacotes foi organizada da seguinte forma:
 
 * **`config`**: Responsável pela configuração inicial do sistema e pelo pré-carregamento dos dados em memória.
 * **`controller`**: Define os endpoints da API REST, realiza a validação dos dados de entrada (Jakarta Validation) e centraliza o tratamento global de exceções.
@@ -48,7 +48,7 @@ A aplicação disponibiliza os seguintes endpoints principais:
 
 ---
 
-## 💾 Dados das Contas Pré-carregadas
+## Dados das Contas Pré-carregadas
 
 Para fins de simulação e teste, o sistema inicia com uma base pré-carregada de 4 contas:
 
@@ -63,9 +63,6 @@ Para fins de simulação e teste, o sistema inicia com uma base pré-carregada d
 
 ## Testes e Documentação
 
-* **Testes Unitários:** Implementados para garantir a cobertura das principais regras de negócio da aplicação (como fluxo de transferência e validações de saldo). Para rodar os testes, utilize o comando:
-  ```bash
-  mvn test
-  ```
+* **Testes Unitários:** Implementados para garantir a cobertura das principais regras de negócio da aplicação (como fluxo de transferência e validações de saldo). 
 * **Documentação (Swagger/OpenAPI):** A documentação interativa das rotas pode ser acessada localmente através do link: `http://localhost:8080/swagger-ui.html`
 * **Notificações:** Após o sucesso de cada transferência, o sistema dispara de forma resiliente uma simulação de notificação para o cliente envolvido.

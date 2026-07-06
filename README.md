@@ -16,7 +16,7 @@ Esta é uma API REST simplificada para um banco digital, desenvolvida como parte
 
 ## Arquitetura e Decisões de Design
 
-O sistema foi projetado seguindo os princípios do **SOLID**, com foco no **Princípio da Responsabilidade Única (SRP)**. A estrutura de pacotes foi organizada da seguinte forma:
+O sistema foi projetado seguindo os princípios do **SOLID**, com foco no **Princípio da Responsabilidade Única (SRP)** e seguindo a arquitetura SAGA de microserviços. A estrutura de pacotes foi organizada da seguinte forma:
 
 * **`config`**: Responsável pela configuração inicial do sistema e pelo pré-carregamento dos dados em memória.
 * **`controller`**: Define os endpoints da API REST, realiza a validação dos dados de entrada (Jakarta Validation) e centraliza o tratamento global de exceções.

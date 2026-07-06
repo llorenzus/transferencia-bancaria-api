@@ -59,4 +59,20 @@ public class Transacao {
     public BigDecimal getValor() {
         return valor;
     }
+
+    public void setOrigem(Conta origem) {
+        this.origem = origem;
+    }
+
+    public void setDestino(Conta destino) {
+        this.destino = destino;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
 }

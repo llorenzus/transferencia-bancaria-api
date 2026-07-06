@@ -10,6 +10,8 @@ import compass.transferencia_bancaria_api.repository.TransacaoRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class TransacaoService {
             throw new TransferenciaInvalidaException("A conta de origem e destino não podem ser iguais.");
         }
 
+        if(request.getValorTransferencia().compareTo(BigDecimal.ONE) <= 0){
+            throw new TransferenciaInvalidaException("Valor deve ser maior que zero.");
+        }
         // Ordenação de IDs para mitigar riscos de Deadlock em alta concorrência
         Long primeiroId = Math.min(request.getIdContaOrigem(), request.getIdContaDestino());
         Long segundoId = Math.max(request.getIdContaOrigem(), request.getIdContaDestino());

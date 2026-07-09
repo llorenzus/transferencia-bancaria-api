@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({SaldoInsuficienteException.class, TransferenciaInvalidaException.class})
     public ResponseEntity<Object> handleBusinessErrors(RuntimeException ex) {
-        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return buildResponse(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

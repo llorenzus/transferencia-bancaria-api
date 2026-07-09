@@ -20,10 +20,12 @@ public class TransacaoService {
 
     private final ContaRepository contaRepository;
     private final TransacaoRepository transacaoRepository;
+    private final NotificacaoService notificacaoService;
 
-    public TransacaoService(ContaRepository contaRepository, TransacaoRepository transacaoRepository) {
+    public TransacaoService(ContaRepository contaRepository, TransacaoRepository transacaoRepository, NotificacaoService notificacaoService) {
         this.contaRepository = contaRepository;
         this.transacaoRepository = transacaoRepository;
+        this.notificacaoService = notificacaoService;
     }
 
     @Transactional
@@ -59,17 +61,13 @@ public class TransacaoService {
         transacaoRepository.save(transacao);
 
         // Dispara as notificações de forma assíncrona
-        enviarNotificacao(origem.getNome(), "Sua transferência de R$ " + request.getValorTransferencia() + " foi realizada com sucesso.");
-        enviarNotificacao(destino.getNome(), "Você recebeu uma transferência de R$ " + request.getValorTransferencia() + ".");
+        String mensagemNotificacaoContaOrigem = "Sua transferência de R$ " + request.getValorTransferencia() + " foi realizada com sucesso.";
+        this.notificacaoService.enviarNotificacao(origem.getNome(), mensagemNotificacaoContaOrigem);
+        String mensagemNotificacaoContaDestino = "Você recebeu uma transferência de R$ " + request.getValorTransferencia() + ".";
+        this.notificacaoService.enviarNotificacao(destino.getNome(), mensagemNotificacaoContaDestino);
     }
 
     public List<Transacao> listarMovimentacoes(Long origemId, Long destinoId) {
         return transacaoRepository.findByOrigemIdOrDestinoId(origemId, destinoId);
-    }
-
-    @Async
-    protected void enviarNotificacao(String cliente, String mensagem) {
-        // Simulando o envio de notificação (Req 2.C)
-        System.out.println("[NOTIFICAÇÃO ASSÍNCRONA] Enviado para " + cliente + ": " + mensagem);
     }
 }

@@ -36,15 +36,29 @@ A aplicação disponibiliza os seguintes endpoints principais:
 * **Corpo da Requisição (JSON):**
   ```json
   {
-    "contaOrigemId": 1,
-    "contaDestinoId": 2,
-    "valor": 150.00
+    "idContaOrigem": 1,
+    "idContaDestino": 2,
+    "valorTransferencia": 150.00
   }
   ```
 
 ### 2. Consultar Histórico de Transações
 * **Rota:** `GET /transacoes/historico/{contaId}`
-* **Descrição:** Retorna a lista de movimentações financeiras envolvendo a conta informada.
+* **Descrição:** Retorna a lista de movimentações financeiras envolvendo a conta informada. Os saldos atuais das contas envolvidas são ocultados por questões de privacidade.
+* **Exemplo de Resposta (JSON):**
+  ```json
+  [
+    {
+      "id": 1,
+      "idContaOrigem": 1,
+      "nomeContaOrigem": "Vinicius Junior",
+      "idContaDestino": 2,
+      "nomeContaDestino": "Gabriel Magalhães",
+      "dataHora": "2026-07-16T21:00:00",
+      "valor": 150.00
+    }
+  ]
+  ```
 
 ---
 

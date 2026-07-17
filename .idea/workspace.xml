@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7ea99271-0548-49dc-a55f-0514b32cef59" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/transferencia-bancaria-api/src/test/java/compass/transferencia_bancaria_api/repository/ContaRepositoryLockTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transferencia-bancaria-api/src/main/java/compass/transferencia_bancaria_api/service/NotificacaoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/transferencia-bancaria-api/src/main/java/compass/transferencia_bancaria_api/service/NotificacaoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transferencia-bancaria-api/src/test/java/compass/transferencia_bancaria_api/repository/ContaRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/transferencia-bancaria-api/src/test/java/compass/transferencia_bancaria_api/repository/ContaRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transferencia-bancaria-api/src/test/java/compass/transferencia_bancaria_api/service/TransacaoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/transferencia-bancaria-api/src/test/java/compass/transferencia_bancaria_api/service/TransacaoServiceTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="3GFJlkzwBfksif4hcBKQWzywZwy" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
+  }
+}]]></component>
+  <component name="RunManager" selected="JUnit.All in transferencia-bancaria-api">
+    <configuration name="All in transferencia-bancaria-api" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="transferencia-bancaria-api" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransacaoServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="transferencia-bancaria-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="compass.transferencia_bancaria_api.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="compass.transferencia_bancaria_api.service" />
+      <option name="MAIN_CLASS_NAME" value="compass.transferencia_bancaria_api.service.TransacaoServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TransferenciaBancariaApiApplicationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="transferencia-bancaria-api" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="compass.transferencia_bancaria_api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="compass.transferencia_bancaria_api" />
+      <option name="MAIN_CLASS_NAME" value="compass.transferencia_bancaria_api.TransferenciaBancariaApiApplicationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in transferencia-bancaria-api" />
+        <item itemvalue="JUnit.TransacaoServiceTest" />
+        <item itemvalue="JUnit.TransferenciaBancariaApiApplicationTests" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7ea99271-0548-49dc-a55f-0514b32cef59" name="Changes" comment="" />
+      <created>1783561538349</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783561538349</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

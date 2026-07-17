@@ -7,7 +7,6 @@ import compass.transferencia_bancaria_api.domain.exception.TransferenciaInvalida
 import compass.transferencia_bancaria_api.domain.model.Conta;
 import compass.transferencia_bancaria_api.repository.ContaRepository;
 import compass.transferencia_bancaria_api.repository.TransacaoRepository;
-import compass.transferencia_bancaria_api.service.TransacaoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +27,8 @@ public class TransacaoServiceTest {
     private ContaRepository contaRepository;
     @Mock
     private TransacaoRepository transacaoRepository;
-
+    @Mock
+    private NotificacaoService notificacaoService;
     @InjectMocks
     private TransacaoService transacaoService;
 
@@ -151,5 +151,30 @@ public class TransacaoServiceTest {
         assertThrows(TransferenciaInvalidaException.class, () -> {
             transacaoService.realizarTransferencia(request);
         });
+    }
+
+    @Test
+    void devePermitirTransferenciaComValorMenorQueUm() {
+
+        TransferenciaRequest request = new TransferenciaRequest();
+        request.setIdContaOrigem(1L);
+        request.setIdContaDestino(2L);
+        request.setValorTransferencia(new BigDecimal("0.50"));
+
+        Conta origem = new Conta(1L, "Origem", BigDecimal.TEN);
+        Conta destino = new Conta(2L, "Destino", BigDecimal.ZERO);
+
+        when(contaRepository.findByIdForUpdate(1L))
+                .thenReturn(Optional.of(origem));
+
+        when(contaRepository.findByIdForUpdate(2L))
+                .thenReturn(Optional.of(destino));
+
+        when(contaRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        transacaoService.realizarTransferencia(request);
+
+        assertEquals(new BigDecimal("9.50"), origem.getSaldo());
+        assertEquals(new BigDecimal("0.50"), destino.getSaldo());
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NotificacaoService {
+    public NotificacaoService(){
+
+    }
     @Async
     public void enviarNotificacao(String cliente, String mensagem) {
         // Simulando o envio de notificação

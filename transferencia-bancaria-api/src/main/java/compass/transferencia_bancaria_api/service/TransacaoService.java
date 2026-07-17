@@ -1,5 +1,6 @@
 package compass.transferencia_bancaria_api.service;
 
+import compass.transferencia_bancaria_api.controller.dto.TransacaoResponse;
 import compass.transferencia_bancaria_api.controller.dto.TransferenciaRequest;
 import compass.transferencia_bancaria_api.domain.exception.ContaNaoEncontradaException;
 import compass.transferencia_bancaria_api.domain.exception.TransferenciaInvalidaException;
@@ -10,6 +11,8 @@ import compass.transferencia_bancaria_api.repository.TransacaoRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -34,7 +37,7 @@ public class TransacaoService {
             throw new TransferenciaInvalidaException("A conta de origem e destino não podem ser iguais.");
         }
 
-        if(request.getValorTransferencia().compareTo(BigDecimal.ONE) <= 0){
+        if(request.getValorTransferencia().compareTo(BigDecimal.ZERO) <= 0){
             throw new TransferenciaInvalidaException("Valor deve ser maior que zero.");
         }
         // Ordenação de IDs para mitigar riscos de Deadlock em alta concorrência
@@ -60,14 +63,37 @@ public class TransacaoService {
         Transacao transacao = new Transacao(origem, destino, LocalDateTime.now(), request.getValorTransferencia());
         transacaoRepository.save(transacao);
 
-        // Dispara as notificações de forma assíncrona
-        String mensagemNotificacaoContaOrigem = "Sua transferência de R$ " + request.getValorTransferencia() + " foi realizada com sucesso.";
-        this.notificacaoService.enviarNotificacao(origem.getNome(), mensagemNotificacaoContaOrigem);
-        String mensagemNotificacaoContaDestino = "Você recebeu uma transferência de R$ " + request.getValorTransferencia() + ".";
-        this.notificacaoService.enviarNotificacao(destino.getNome(), mensagemNotificacaoContaDestino);
+        // Dispara as notificações de forma assíncrona apenas após o commit bem-sucedido
+        if (TransactionSynchronizationManager.isActualTransactionActive()) {
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override
+                public void afterCommit() {
+                    String mensagemNotificacaoContaOrigem = "Sua transferência de R$ " + request.getValorTransferencia() + " foi realizada com sucesso.";
+                    notificacaoService.enviarNotificacao(origem.getNome(), mensagemNotificacaoContaOrigem);
+                    String mensagemNotificacaoContaDestino = "Você recebeu uma transferência de R$ " + request.getValorTransferencia() + ".";
+                    notificacaoService.enviarNotificacao(destino.getNome(), mensagemNotificacaoContaDestino);
+                }
+            });
+        } else {
+            String mensagemNotificacaoContaOrigem = "Sua transferência de R$ " + request.getValorTransferencia() + " foi realizada com sucesso.";
+            this.notificacaoService.enviarNotificacao(origem.getNome(), mensagemNotificacaoContaOrigem);
+            String mensagemNotificacaoContaDestino = "Você recebeu uma transferência de R$ " + request.getValorTransferencia() + ".";
+            this.notificacaoService.enviarNotificacao(destino.getNome(), mensagemNotificacaoContaDestino);
+        }
     }
 
-    public List<Transacao> listarMovimentacoes(Long origemId, Long destinoId) {
-        return transacaoRepository.findByOrigemIdOrDestinoId(origemId, destinoId);
+    public List<TransacaoResponse> listarMovimentacoes(Long origemId, Long destinoId) {
+        return transacaoRepository.findByOrigemIdOrDestinoId(origemId, destinoId)
+                .stream()
+                .map(t -> new TransacaoResponse(
+                        t.getId(),
+                        t.getOrigem().getId(),
+                        t.getOrigem().getNome(),
+                        t.getDestino().getId(),
+                        t.getDestino().getNome(),
+                        t.getDataHora(),
+                        t.getValor()
+                ))
+                .toList();
     }
 }

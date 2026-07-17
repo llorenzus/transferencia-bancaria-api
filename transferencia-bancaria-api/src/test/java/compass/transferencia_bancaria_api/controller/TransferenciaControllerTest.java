@@ -1,5 +1,6 @@
 package compass.transferencia_bancaria_api.controller;
 
+import compass.transferencia_bancaria_api.controller.dto.TransacaoResponse;
 import compass.transferencia_bancaria_api.controller.dto.TransferenciaRequest;
 import compass.transferencia_bancaria_api.domain.model.Transacao;
 import compass.transferencia_bancaria_api.service.TransacaoService;
@@ -74,27 +75,24 @@ class TransferenciaControllerTest {
     }
 
     // ----------------------------
-    // POST - erro de negócio (400 via service)
+    // POST - erro de negócio (422 via service)
     // ----------------------------
     @Test
-    void deveRetornarBadRequestQuandoServicoLancaIllegalArgument() throws Exception {
-
-        doNothing().when(transacaoService)
-                .realizarTransferencia(any());
+    void deveRetornarUnprocessableEntityQuandoServicoLancaTransferenciaInvalida() throws Exception {
 
         TransferenciaRequest request = new TransferenciaRequest();
         request.setIdContaOrigem(1L);
         request.setIdContaDestino(2L);
         request.setValorTransferencia(BigDecimal.TEN);
 
-        org.mockito.Mockito.doThrow(new IllegalArgumentException("Erro de negócio"))
+        org.mockito.Mockito.doThrow(new compass.transferencia_bancaria_api.domain.exception.TransferenciaInvalidaException("Erro de negócio"))
                 .when(transacaoService).realizarTransferencia(any());
 
         mockMvc.perform(post("/transacoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Erro de negócio"));
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.message").value("Erro de negócio"));
     }
 
     // ----------------------------
@@ -103,8 +101,8 @@ class TransferenciaControllerTest {
     @Test
     void deveRetornarHistoricoDaConta() throws Exception {
 
-        Transacao t1 = new Transacao();
-        Transacao t2 = new Transacao();
+        TransacaoResponse t1 = new TransacaoResponse();
+        TransacaoResponse t2 = new TransacaoResponse();
 
         when(transacaoService.listarMovimentacoes(1L, 1L))
                 .thenReturn(List.of(t1, t2));

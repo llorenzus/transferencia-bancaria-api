@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class TransacaoResponse {
 
     private Long id;
+    private String protocolo;
     private Long idContaOrigem;
     private String nomeContaOrigem;
     private Long idContaDestino;
@@ -16,7 +17,12 @@ public class TransacaoResponse {
     public TransacaoResponse() {}
 
     public TransacaoResponse(Long id, Long idContaOrigem, String nomeContaOrigem, Long idContaDestino, String nomeContaDestino, LocalDateTime dataHora, BigDecimal valor) {
+        this(id, null, idContaOrigem, nomeContaOrigem, idContaDestino, nomeContaDestino, dataHora, valor);
+    }
+
+    public TransacaoResponse(Long id, String protocolo, Long idContaOrigem, String nomeContaOrigem, Long idContaDestino, String nomeContaDestino, LocalDateTime dataHora, BigDecimal valor) {
         this.id = id;
+        this.protocolo = protocolo;
         this.idContaOrigem = idContaOrigem;
         this.nomeContaOrigem = nomeContaOrigem;
         this.idContaDestino = idContaDestino;
@@ -31,6 +37,14 @@ public class TransacaoResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getProtocolo() {
+        return protocolo;
+    }
+
+    public void setProtocolo(String protocolo) {
+        this.protocolo = protocolo;
     }
 
     public Long getIdContaOrigem() {

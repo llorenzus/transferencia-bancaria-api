@@ -12,6 +12,11 @@ public class Transacao {
 
     }
     public Transacao(Conta origem, Conta destino, LocalDateTime dataHora, BigDecimal valor) {
+        this(null, origem, destino, dataHora, valor);
+    }
+
+    public Transacao(String protocolo, Conta origem, Conta destino, LocalDateTime dataHora, BigDecimal valor) {
+        this.protocolo = protocolo;
         this.origem = origem;
         this.destino = destino;
         this.dataHora = dataHora;
@@ -21,6 +26,9 @@ public class Transacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "protocolo")
+    private String protocolo;
 
     @ManyToOne
     @JoinColumn(name = "conta_origem_id", nullable = false)
@@ -58,6 +66,14 @@ public class Transacao {
 
     public BigDecimal getValor() {
         return valor;
+    }
+
+    public String getProtocolo() {
+        return protocolo;
+    }
+
+    public void setProtocolo(String protocolo) {
+        this.protocolo = protocolo;
     }
 
     public void setOrigem(Conta origem) {

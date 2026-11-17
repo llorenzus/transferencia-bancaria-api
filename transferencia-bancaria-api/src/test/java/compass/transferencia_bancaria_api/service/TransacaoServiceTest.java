@@ -177,4 +177,24 @@ public class TransacaoServiceTest {
         assertEquals(new BigDecimal("9.50"), origem.getSaldo());
         assertEquals(new BigDecimal("0.50"), destino.getSaldo());
     }
+
+    @Test
+    void deveProcessarTransferenciaEnfileiradaComSucesso() {
+        compass.transferencia_bancaria_api.controller.dto.TransferenciaMensagem mensagem =
+                new compass.transferencia_bancaria_api.controller.dto.TransferenciaMensagem(
+                        "uuid-teste-123", 1L, 2L, BigDecimal.valueOf(25), java.time.LocalDateTime.now()
+                );
+
+        Conta origem = new Conta(1L, "Origem", BigDecimal.valueOf(100));
+        Conta destino = new Conta(2L, "Destino", BigDecimal.valueOf(50));
+
+        when(contaRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(origem));
+        when(contaRepository.findByIdForUpdate(2L)).thenReturn(Optional.of(destino));
+        when(contaRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        transacaoService.processarTransferenciaEnfileirada(mensagem);
+
+        assertEquals(BigDecimal.valueOf(75), origem.getSaldo());
+        assertEquals(BigDecimal.valueOf(75), destino.getSaldo());
+    }
 }

@@ -1,0 +1,59 @@
+name: CI - Build, Test & JaCoCo Coverage
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build, Test & Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Grant Execute Permission for Maven Wrapper
+        run: chmod +x transferencia-bancaria-api/mvnw
+
+      - name: Run Tests with Maven and Generate JaCoCo Report
+        working-directory: transferencia-bancaria-api
+        run: ./mvnw clean test
+
+      - name: Publish JaCoCo Summary to Job Summary
+        if: always()
+        run: |
+          CSV_FILE="transferencia-bancaria-api/target/site/jacoco/jacoco.csv"
+          if [ -f "$CSV_FILE" ]; then
+            awk -F',' 'NR>1 {im+=$4; ic+=$5; bm+=$6; bc+=$7; lm+=$8; lc+=$9} END {
+              it=im+ic; bt=bm+bc; lt=lm+lc;
+              ip=(it>0)?(ic/it)*100:0; bp=(bt>0)?(bc/bt)*100:0; lp=(lt>0)?(lc/lt)*100:0;
+              print "## 📊 JaCoCo Coverage Summary" >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              print "" >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              print "| Métrica | Total | Coberto | Não Coberto | Cobertura % |" >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              print "|---|---|---|---|---|" >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              printf "| **Instruções** | %d | %d | %d | **%.2f%%** |\n", it, ic, im, ip >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              printf "| **Branches** | %d | %d | %d | **%.2f%%** |\n", bt, bc, bm, bp >> ENVIRON["GITHUB_STEP_SUMMARY"];
+              printf "| **Linhas** | %d | %d | %d | **%.2f%%** |\n", lt, lc, lm, lp >> ENVIRON["GITHUB_STEP_SUMMARY"];
+            }' "$CSV_FILE"
+          else
+            echo "Relatório JaCoCo CSV não encontrado." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Upload JaCoCo Coverage Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-coverage-report
+          path: transferencia-bancaria-api/target/site/jacoco/
+          retention-days: 14
